@@ -27,5 +27,7 @@ h1 {
 
 .array-element{
     background-color: blue;
+    color: white;
+    text-align: center;
 }
 
