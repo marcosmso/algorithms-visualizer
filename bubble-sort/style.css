@@ -1,0 +1,33 @@
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+}
+
+.inputs-row {
+    margin: 10px;
+    text-align: center;
+}
+
+.array-container {
+    margin: auto;
+    width: 98vw;
+    display: flex;
+    align-items: flex-end; 
+    border: 2px solid black; 
+    padding-top: 30px;
+    justify-content: space-around;
+    
+}
+
+.array-element{
+    background-color: blue;
+    color: white;
+    text-align: center;
+}
+
