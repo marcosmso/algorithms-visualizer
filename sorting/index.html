@@ -9,7 +9,7 @@
 
 </head>
 <body>
-    <h1>Bubble Sort Visualizer</h1>
+    <h1>Sorting Visualizer</h1>
     <div class="inputs-container">
         <div class="inputs-row">
             <!-- <label for="Number">Number of Elements:</label>
@@ -19,6 +19,11 @@
         <div class="inputs-row">
             <!-- <label for="search-number">Search for:</label>
             <input class="target-input" type="text" name="search-number" placeholder="type a positive number"> -->
+            <select id="algorithm-select">
+              <option selected>Choose a sorting method</option>
+              <option value="bubble_sort" selected>Bubble Sort</option>
+              <option value="selection_sort">Selection Sort</option>
+            </select>
             <button id="sort-btn">Sort</button>
             <button id="stop-btn" disabled>Stop</button>
         </div>
