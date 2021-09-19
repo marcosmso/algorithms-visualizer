@@ -4,15 +4,20 @@ sort_btn = document.querySelector("#sort-btn")
 stop_btn = document.querySelector("#stop-btn")
 algorithm_select = document.querySelector("#algorithm-select")
 
-const SORTED = "green"
-const NOT_SORTED = "blue"
 const MAX = 200
 const MIN = 10
 const HEIGHT_SCALE = 2
-const NUMBER_OF_ELEMENTS = 20
+const NUMBER_OF_ELEMENTS = 400
 const TOTAL_VIEW_WIDTH = 90
 const BLOCK_WIDTH = TOTAL_VIEW_WIDTH/NUMBER_OF_ELEMENTS;
-const DELAY = 300
+const DELAY = 100
+
+const state = {
+	SORTED: "green",
+	NOT_SORTED: "blue",
+	PROCESSING: "red",
+	NEXT: "purple"
+}
 
 const algorithms = {
 	"bubble_sort": bubble_sort,
@@ -81,7 +86,7 @@ generate_array_btn.addEventListener("click", () => {
 
 sort_btn.addEventListener("click", () => {
 	number_elements.forEach((element)=>{
-		element.style.backgroundColor = NOT_SORTED
+		element.style.backgroundColor = state.NOT_SORTED
 	})
     algorithm = algorithm_select.value
 	algorithms[algorithm]()
@@ -109,8 +114,8 @@ async function bubble_sort(delay = DELAY){
 				return
 			} 
 
-			number_elements[j].style.backgroundColor = "pink"
-			number_elements[j + 1].style.backgroundColor = "pink"
+			number_elements[j].style.backgroundColor = state.PROCESSING
+			number_elements[j + 1].style.backgroundColor = state.PROCESSING
 			
 			await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 
@@ -120,14 +125,14 @@ async function bubble_sort(delay = DELAY){
 				render_array_state()
 			}
 
-			number_elements[j].style.backgroundColor = NOT_SORTED
+			number_elements[j].style.backgroundColor = state.NOT_SORTED
 
 			await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 
 		}
-		number_elements[j].style.backgroundColor = SORTED
+		number_elements[j].style.backgroundColor = state.SORTED
     }
-	number_elements[0].style.backgroundColor = SORTED
+	number_elements[0].style.backgroundColor = state.SORTED
     
     generate_array_btn.disabled = false;
 	sort_btn.disabled = false 
@@ -145,31 +150,31 @@ async function selection_sort(delay = DELAY){
 
     for(i = 0; i < n - 1 && !stop; i++){
 		min_idx = i
-		number_elements[min_idx].style.backgroundColor = "pink"
+		number_elements[min_idx].style.backgroundColor = state.PROCESSING
 
 		await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 
 		for (j = i + 1; j < n && !stop; j++){	
-			number_elements[min_idx].style.backgroundColor = "pink"
-			number_elements[j].style.backgroundColor = "pink"
+			number_elements[min_idx].style.backgroundColor = state.PROCESSING
+			number_elements[j].style.backgroundColor = state.PROCESSING
 
 			await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 
 			if (array[j] < array[min_idx]){
-				number_elements[min_idx].style.backgroundColor = NOT_SORTED
+				number_elements[min_idx].style.backgroundColor = state.NOT_SORTED
 				min_idx = j 
 			} else {
-				number_elements[j].style.backgroundColor = NOT_SORTED
+				number_elements[j].style.backgroundColor = state.NOT_SORTED
 			}
 		}
 		await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 		
 		array.swap(i, min_idx)
 		number_elements.swap(i, min_idx)
-		number_elements[i].style.backgroundColor = SORTED
+		number_elements[i].style.backgroundColor = state.SORTED
 		render_array_state()
     }
-	number_elements[n-1].style.backgroundColor = SORTED
+	number_elements[n-1].style.backgroundColor = state.SORTED
     
     generate_array_btn.disabled = false;
 	sort_btn.disabled = false 
@@ -189,31 +194,31 @@ async function insertion_sort(delay = DELAY){
 
     for(i = 1; i < n && !stop; i++){
 		if (i < n - 1){
-			number_elements[i+1].style.backgroundColor = "purple"
+			number_elements[i+1].style.backgroundColor = state.NEXT
 		}
 		j = i - 1
-		number_elements[i].style.backgroundColor = "red"
-		// number_elements[j].style.backgroundColor = "pink"
-		// number_elements[min_idx].style.backgroundColor = "pink"
+		number_elements[i].style.backgroundColor = state.PROCESSING//"red"
+		number_elements[j].style.backgroundColor = state.PROCESSING
 
 		await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 
 		while (j >= 0 && array[j] > array[j+1] && !stop){
-			// number_elements[j].style.backgroundColor = "pink"
-			await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
+			number_elements[j].style.backgroundColor = state.PROCESSING
 			render_array_state()
+			await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
+
 			array.swap(j, j+1)
 			number_elements.swap(j, j+1)
 			render_array_state()
+			await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 			
-
-			number_elements[j+1].style.backgroundColor = "blue"
+			number_elements[j+1].style.backgroundColor = state.NOT_SORTED
 			j = j - 1
 		}
 
 		await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 		number_elements.forEach(element =>{
-			element.style.backgroundColor ="blue"
+			element.style.backgroundColor =state.NOT_SORTED
 		})	
 	
 		render_array_state()
