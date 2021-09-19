@@ -9,14 +9,15 @@ const NOT_SORTED = "blue"
 const MAX = 200
 const MIN = 10
 const HEIGHT_SCALE = 2
-const NUMBER_OF_ELEMENTS = 60
+const NUMBER_OF_ELEMENTS = 20
 const TOTAL_VIEW_WIDTH = 90
 const BLOCK_WIDTH = TOTAL_VIEW_WIDTH/NUMBER_OF_ELEMENTS;
-const DELAY = 5
+const DELAY = 300
 
 const algorithms = {
 	"bubble_sort": bubble_sort,
-	"selection_sort": selection_sort
+	"selection_sort": selection_sort,
+	"insertion_sort": insertion_sort
 }
 
 var stop = false
@@ -175,3 +176,53 @@ async function selection_sort(delay = DELAY){
 	stop_btn.disabled =	true
 	stop = false
 }
+
+async function insertion_sort(delay = DELAY){
+	sort_btn.disabled =	true
+    generate_array_btn.disabled = true;
+	stop_btn.disabled =	false
+    
+	let n = array.length;
+    let i, j
+
+	await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
+
+    for(i = 1; i < n && !stop; i++){
+		if (i < n - 1){
+			number_elements[i+1].style.backgroundColor = "purple"
+		}
+		j = i - 1
+		number_elements[i].style.backgroundColor = "red"
+		// number_elements[j].style.backgroundColor = "pink"
+		// number_elements[min_idx].style.backgroundColor = "pink"
+
+		await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
+
+		while (j >= 0 && array[j] > array[j+1] && !stop){
+			// number_elements[j].style.backgroundColor = "pink"
+			await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
+			render_array_state()
+			array.swap(j, j+1)
+			number_elements.swap(j, j+1)
+			render_array_state()
+			
+
+			number_elements[j+1].style.backgroundColor = "blue"
+			j = j - 1
+		}
+
+		await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
+		number_elements.forEach(element =>{
+			element.style.backgroundColor ="blue"
+		})	
+	
+		render_array_state()
+    }
+	// number_elements[n-1].style.backgroundColor = SORTED
+    
+    generate_array_btn.disabled = false;
+	sort_btn.disabled = false 
+	stop_btn.disabled =	true
+	stop = false
+}
+
