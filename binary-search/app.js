@@ -8,56 +8,68 @@ const HEIGHT_SCALE = 2;
 const NUMBER_OF_ELEMENTS = 60;
 const TOTAL_VIEW_WIDTH = 90;
 const BLOCK_WIDTH = TOTAL_VIEW_WIDTH/NUMBER_OF_ELEMENTS;
+const DELAY = 800;
 
-var array = []
-var rendered_elements = []
+let array = []
+let number_elements = []
 
-renderRandomArray();
+generateRandomSortedArray()
+createNumbersDOMElements(true)
+render_array_state()
 
-generate_array_btn.addEventListener("click", renderRandomArray);
-
-function renderRandomArray(){
+function generateRandomArray(){
     array = [];
-    rendered_elements = [];
-    generateRandomSortedArray();
-    array_container.innerHTML = "";
-
-    for (let i = 0; i < array.length; i++) {
-        renderArrayElement(i);
-    }
-}
-
-function generateRandomSortedArray(){
+    
     for(let i = 0; i < NUMBER_OF_ELEMENTS; i++){
         let randomNumber = Math.floor(Math.random() * (MAX - MIN) + MIN);
         array.push(randomNumber);
-    }
+    } 
+}
+
+function generateRandomSortedArray(){
+    generateRandomArray()
     array = array.sort((a, b) => {return a - b});
 }
 
-function renderArrayElement(i){
-    number = array[i];
-    var array_element = document.createElement("div");
-    array_element.classList = "array-element";
+function createNumbersDOMElements(withNumberText = false){
 
-    var array_element_label = document.createElement("label");
-    array_element_label.classList = "array-element-label";
-    array_element_label.innerText = number;
+    number_elements = array.map((number) => {
+        let number_element = document.createElement("div")
+        number_element.classList = "array-element"
 
-    array_element.style.height = `${number * HEIGHT_SCALE}px`;
-    array_element.style.width = `${BLOCK_WIDTH}vw`;
+        let number_element_label = document.createElement("label")
+        number_element_label.classList = "array-element-label"    
+        
+        if (withNumberText){
+            number_element_label.innerText = number
+        }
 
-    array_element.appendChild(array_element_label);
-    array_container.appendChild(array_element);
+        number_element.style.height = `${number * HEIGHT_SCALE}px`
+        number_element.style.width = `${BLOCK_WIDTH}vw`
 
-    rendered_elements.push(array_element);
+        number_element.appendChild(number_element_label)
 
+        return number_element
+    })
 }
+
+function render_array_state(){
+    array_container.innerHTML = ""
+    number_elements.forEach((element)=>{
+        array_container.appendChild(element)
+    })
+}
+
+generate_array_btn.addEventListener("click", () => {
+    generateRandomSortedArray()
+    createNumbersDOMElements(true)
+    render_array_state()
+})
 
 search_btn.addEventListener("click", () => {
     
     for (let i = 0; i < NUMBER_OF_ELEMENTS; i++){
-        rendered_elements[i].style.backgroundColor = "blue";
+        number_elements[i].style.backgroundColor = "blue";
     }
 
     const target = parseInt(document.querySelector(".target-input").value);
@@ -67,44 +79,44 @@ search_btn.addEventListener("click", () => {
 
 })
 
-async function binary_search(target, delay = 800){
+async function binary_search(target, delay = DELAY){
 
     generate_array_btn.disabled = true;
-    var found = false;
-    var left = 0;
-    var right = array.length - 1;
-    var mid;
+    let found = false;
+    let left = 0;
+    let right = array.length - 1;
+    let mid;
 
     while (left <= right) {
 
-        rendered_elements[left].style.backgroundColor = "pink"
-        rendered_elements[right].style.backgroundColor = "pink"
+        number_elements[left].style.backgroundColor = "pink"
+        number_elements[right].style.backgroundColor = "pink"
 
         await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 
         mid = Math.floor((left + right)/2);
-        rendered_elements[mid].style.backgroundColor = "red"
+        number_elements[mid].style.backgroundColor = "red"
 
         await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 
         if (array[mid] == target) {
-            rendered_elements[mid].style.backgroundColor = "green";
+            number_elements[mid].style.backgroundColor = "green";
             found = true;
             break;
         }
 
         if (target > array[mid]){
             left = mid + 1;
-            rendered_elements[left].style.backgroundColor = "pink"
+            number_elements[left].style.backgroundColor = "pink"
             for (let i = 0; i < left; i++){
-                rendered_elements[i].style.backgroundColor = "gray"
+                number_elements[i].style.backgroundColor = "gray"
             }
         }
         else if (target < array[mid]) {
             right = mid - 1;
-            rendered_elements[right].style.backgroundColor = "pink"
+            number_elements[right].style.backgroundColor = "pink"
             for (let i = right + 1; i < array.length; i++){
-                rendered_elements[i].style.backgroundColor = "gray"
+                number_elements[i].style.backgroundColor = "gray"
             }
         }
 

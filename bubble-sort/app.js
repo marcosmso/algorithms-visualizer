@@ -13,49 +13,57 @@ const DELAY = 30
 
 var stop = false
 var array = []
-var rendered_elements = []
+var number_elements = []
 
-renderRandomArray();
+generateRandomArray()
+createNumbersDOMElements()
+render_array_state()
 
-generate_array_btn.addEventListener("click", renderRandomArray);
-
-function renderRandomArray(){
-    array = []
-    rendered_elements = []
+function generateRandomArray(){
+    array = [];
     
     for(let i = 0; i < NUMBER_OF_ELEMENTS; i++){
-        let randomNumber = Math.floor(Math.random() * (MAX - MIN) + MIN)
-        array.push(randomNumber)
-    }
+        let randomNumber = Math.floor(Math.random() * (MAX - MIN) + MIN);
+        array.push(randomNumber);
+    } 
+}
+
+function createNumbersDOMElements(withNumberText = false){
+
+    number_elements = array.map((number) => {
+        let number_element = document.createElement("div")
+        number_element.classList = "array-element"
+
+        let number_element_label = document.createElement("label")
+        number_element_label.classList = "array-element-label"    
+        
+        if (withNumberText){
+            number_element_label.innerText = number
+        }
+
+        number_element.style.height = `${number * HEIGHT_SCALE}px`
+        number_element.style.width = `${BLOCK_WIDTH}vw`
+
+        number_element.appendChild(number_element_label)
+
+        return number_element
+    })
+}
+
+function render_array_state(){
     array_container.innerHTML = ""
-
-    for (let i = 0; i < array.length; i++) {
-        renderArrayElement(i)
-    }
+    number_elements.forEach((element)=>{
+        array_container.appendChild(element)
+    })
 }
 
-function renderArrayElement(i){
-    number = array[i]
-    var array_element = document.createElement("div")
-    array_element.classList = "array-element"
-
-    var array_element_label = document.createElement("label")
-    array_element_label.classList = "array-element-label"
-    // array_element_label.innerText = number;
-
-    array_element.style.height = `${number * HEIGHT_SCALE}px`
-    array_element.style.width = `${BLOCK_WIDTH}vw`
-
-    array_element.appendChild(array_element_label)
-    array_container.appendChild(array_element)
-
-    rendered_elements.push(array_element);
-}
+generate_array_btn.addEventListener("click", () => {
+	generateRandomArray()
+	createNumbersDOMElements()
+	render_array_state()
+})
 
 sort_btn.addEventListener("click", () => {
-    // for (let i = 0; i < NUMBER_OF_ELEMENTS; i++){
-    //     rendered_elements[i].style.backgroundColor = "blue";
-    // }
     bubble_sort()
 })
 
@@ -73,8 +81,8 @@ async function bubble_sort(delay = DELAY){
 
     for(i = 0; i < n - 1 && !stop; i++){
       for (j = 0; j < n - i - 1 && !stop; j++){
-        rendered_elements[j].style.backgroundColor = "pink"
-        rendered_elements[j + 1].style.backgroundColor = "pink"
+        number_elements[j].style.backgroundColor = "pink"
+        number_elements[j + 1].style.backgroundColor = "pink"
         
         await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
 
@@ -83,31 +91,24 @@ async function bubble_sort(delay = DELAY){
           array[j] = array[j + 1]
           array[j + 1] = temp
 
-          temp = rendered_elements[j]
-          rendered_elements[j] = rendered_elements[j + 1]
-          rendered_elements[j + 1] = temp
+          temp = number_elements[j]
+          number_elements[j] = number_elements[j + 1]
+          number_elements[j + 1] = temp
 
-          render_state()
+          render_array_state()
 
         }
 
-        rendered_elements[j].style.backgroundColor = "blue"
-        // rendered_elements[j + 1].style.backgroundColor = "blue"
+        number_elements[j].style.backgroundColor = "blue"
+        // number_elements[j + 1].style.backgroundColor = "blue"
         await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
         console.log(array)
       }
-	  rendered_elements[j].style.backgroundColor = "blue"
+	  number_elements[j].style.backgroundColor = "blue"
     }
     
     generate_array_btn.disabled = false;
 	sort_btn.disabled = false 
 	stop_btn.disabled =	true
 	stop = false
-}
-
-function render_state(){
-  array_container.innerHTML = ""
-  rendered_elements.forEach((elem)=>{
-    array_container.appendChild(elem)
-  })
 }
