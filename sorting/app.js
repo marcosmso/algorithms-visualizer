@@ -27,7 +27,8 @@ const algorithms = {
 	"bubble_sort": bubble_sort,
 	"selection_sort": selection_sort,
 	"insertion_sort": insertion_sort, 
-	"merge_sort_handler": merge_sort_handler
+	"merge_sort_handler": merge_sort_handler,
+  "quick_sort_handler": quick_sort_handler
 }
 
 var stop = false
@@ -128,7 +129,7 @@ async function bubble_sort(){
 			number_elements[j].style.backgroundColor = state.PROCESSING
 			number_elements[j + 1].style.backgroundColor = state.PROCESSING
 			
-			await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
+			await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 
 			if (array[j] > array[j + 1]){ 
 				array.swap(j + 1, j)
@@ -138,7 +139,7 @@ async function bubble_sort(){
 
 			number_elements[j].style.backgroundColor = state.NOT_SORTED
 
-			await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
+			await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 
 		}
 		number_elements[j].style.backgroundColor = state.SORTED
@@ -293,12 +294,12 @@ async function merge(l, m, r){
 
 	while (i < n1 && j < n2) {
 		if (L[i] <= R[j]) {
-			number_elements[k] = LV[i];
+			number_elements[k] = LV[i]
 			array[k] = L[i]
 			i++
 		}
 		else {
-			number_elements[k] = RV[j];
+			number_elements[k] = RV[j]
 			array[k] = R[j]
 			j++
 		}
@@ -306,29 +307,85 @@ async function merge(l, m, r){
 	}
 
 	while (i < n1) {
-		number_elements[k] = LV[i];
-		array[k] = L[i];
+		number_elements[k] = LV[i]
+		array[k] = L[i]
 		i++
 		k++
 	}
 
 	while (j < n2) {
-		number_elements[k] = RV[j];
-		array[k] = R[j];
+		number_elements[k] = RV[j]
+		array[k] = R[j]
 		j++
 		k++
 	}
 
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
+	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
+	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 	render_array_state()
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
+	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
+	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 	
 	number_elements.forEach((element)=>{
 		element.style.backgroundColor = 'blue'
 	})
 
 	render_array_state()
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay));
+	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
+}
+
+async function quick_sort_handler(){
+  sort_btn.disabled =	true
+	generate_array_btn.disabled = true
+	stop_btn.disabled =	false
+	await quick_sort(0, number_elements.length - 1)
+	generate_array_btn.disabled = false
+	sort_btn.disabled = false 
+	stop_btn.disabled =	true
+	stop = false
+}
+
+async function quick_sort(begin, end){
+  if (begin < end){
+    let pivot = await partition(begin, end)
+    await quick_sort(begin, pivot - 1)
+    await quick_sort(pivot + 1, end)
+  } else if (begin == end) {
+    number_elements[begin].style.backgroundColor = state.SORTED
+    render_array_state()
+    await new Promise((resolve) => setTimeout(() => {resolve();}, 2 * delay))
+  }
+}
+
+async function partition(begin, end){
+  let rendered_pivot = number_elements[end]
+  
+  for (let k = begin; k < end; k++) {
+    number_elements[k].style.backgroundColor = "pink"
+  }
+  rendered_pivot.style.backgroundColor = state.PROCESSING
+  render_array_state()
+  await new Promise((resolve) => setTimeout(() => {resolve();}, 2 * delay))
+  
+  let i = begin
+  for(let j = begin; j < end; j++){
+    if (array[j] <= array[end]){
+      array.swap(i, j)
+      number_elements.swap(i, j)
+      i += 1
+    }
+  }
+  array.swap(i, end)
+  number_elements.swap(i, end)
+  render_array_state()
+  await new Promise((resolve) => setTimeout(() => {resolve();}, 2 * delay))
+
+  for (let k = begin; k <= end; k++) {
+    number_elements[k].style.backgroundColor = "blue"
+  }
+  rendered_pivot.style.backgroundColor = state.SORTED
+  render_array_state()
+  await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
+
+  return i
 }
