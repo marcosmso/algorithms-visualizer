@@ -5,3 +5,5 @@ VanillaJS Tool to simulate one of the following algorithms:
 3. Insertion Sort
 4. Merge Sort
 5. Quick Sort
+
+https://marcosmso.github.io/sorting-visualizer/
