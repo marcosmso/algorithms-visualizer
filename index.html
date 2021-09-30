@@ -1,12 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>Sorting</title>
+
 </head>
 <body>
-  
+    <h1>Sorting Visualizer</h1>
+    <div class="inputs-container">
+        <div class="inputs-row">
+            <label for="array-size">Array size:</label>
+            <input type="number" name="array-size" id="array-size" value="50" min="10" max="500">
+            <button id="generate-array-btn">Generate Random Array</button>
+        </div>
+        <div class="inputs-row">
+          <select id="algorithm-select">
+            <option value="bubble_sort">Bubble Sort</option>
+            <option value="selection_sort">Selection Sort</option>
+            <option value="insertion_sort">Insertion Sort</option>
+            <option value="merge_sort_handler">Merge Sort</option>
+            <option value="quick_sort_handler" selected>Quick Sort</option>
+          </select>
+          <button id="sort-btn">Sort</button>
+          <button id="stop-btn" disabled>Stop</button>
+          <h1 id="h1-test"></h1>
+        </div>
+        <div class="inputs-row">
+          <h2>Speed</h2>
+          <input type="range" min="1" max="699" value="400" class="slider" id="speed-selector">
+        </div>
+    </div>
+
+    <div class="array-container">
+
+    </div>
+
+    <script src="app.js"></script>
+
 </body>
 </html>

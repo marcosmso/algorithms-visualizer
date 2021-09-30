@@ -102,10 +102,11 @@ sort_btn.addEventListener("click", () => {
 
 stop_btn.addEventListener("click", () => {
 	stop = true
+  stop_btn.disabled = true
 })
 
 speed_selector_input.addEventListener("input", () => {
-	delay = 1000 - Number(speed_selector_input.value)
+	delay = 700 - Number(speed_selector_input.value)
 })
 
 async function bubble_sort(){
@@ -255,16 +256,18 @@ async function merge_sort_handler() {
 }
 
 async function merge_sort(l, r){
-	if(l >= r){
+	if (stop) return
+  if(l >= r){
 		return
 	}
 
 	let m = l + parseInt((r - l)/2)
+  if (stop) return
 	await merge_sort(l, m)
+  if (stop) return
 	await merge_sort(m + 1, r)
+  if (stop) return
 	await merge(l, m, r);
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay));	
-	render_array_state()
 }
 
 async function merge(l, m, r){
@@ -277,22 +280,28 @@ async function merge(l, m, r){
 	let R = new Array(n2)
 
 	for (let i = 0; i < n1; i++){
+    if (stop) return
 		LV[i] = number_elements[l + i]
 		L[i] = array[l + i]
 		LV[i].style.backgroundColor = 'pink'
 	}
 
  	for (let j = 0; j < n2; j++){
+    if (stop) return
 		RV[j] = number_elements[m + 1 + j]
 		R[j] = array[m + 1 + j]
 		RV[j].style.backgroundColor = 'red'
 	}
+
+  render_array_state()
+	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 
 	let i = 0
 	let j = 0
 	let k = l
 
 	while (i < n1 && j < n2) {
+    if (stop) return
 		if (L[i] <= R[j]) {
 			number_elements[k] = LV[i]
 			array[k] = L[i]
@@ -307,6 +316,7 @@ async function merge(l, m, r){
 	}
 
 	while (i < n1) {
+    if (stop) return
 		number_elements[k] = LV[i]
 		array[k] = L[i]
 		i++
@@ -314,16 +324,14 @@ async function merge(l, m, r){
 	}
 
 	while (j < n2) {
+    if (stop) return
 		number_elements[k] = RV[j]
 		array[k] = R[j]
 		j++
 		k++
 	}
 
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 	render_array_state()
-	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 	await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 	
 	number_elements.forEach((element)=>{
@@ -346,18 +354,22 @@ async function quick_sort_handler(){
 }
 
 async function quick_sort(begin, end){
+  if (stop) return
   if (begin < end){
     let pivot = await partition(begin, end)
+    if (stop) return
     await quick_sort(begin, pivot - 1)
+    if (stop) return
     await quick_sort(pivot + 1, end)
   } else if (begin == end) {
     number_elements[begin].style.backgroundColor = state.SORTED
     render_array_state()
-    await new Promise((resolve) => setTimeout(() => {resolve();}, 2 * delay))
+    await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
   }
 }
 
 async function partition(begin, end){
+  if (stop) return
   let rendered_pivot = number_elements[end]
   
   for (let k = begin; k < end; k++) {
@@ -365,7 +377,7 @@ async function partition(begin, end){
   }
   rendered_pivot.style.backgroundColor = state.PROCESSING
   render_array_state()
-  await new Promise((resolve) => setTimeout(() => {resolve();}, 2 * delay))
+  await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
   
   let i = begin
   for(let j = begin; j < end; j++){
@@ -378,7 +390,7 @@ async function partition(begin, end){
   array.swap(i, end)
   number_elements.swap(i, end)
   render_array_state()
-  await new Promise((resolve) => setTimeout(() => {resolve();}, 2 * delay))
+  await new Promise((resolve) => setTimeout(() => {resolve();}, delay))
 
   for (let k = begin; k <= end; k++) {
     number_elements[k].style.backgroundColor = "blue"
