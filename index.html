@@ -20,6 +20,13 @@
   <div class="container">
 
     <div class="row mb-3 mt-3 align-items-center">
+
+      <div class="col-md-4">
+        <label for="array-size" class="col-form-label">Array size:</label>
+        <input class="form-control" type="number" name="array-size" id="array-size" value="50" min="10" max="500">
+        <button type="button" class="btn btn-primary mt-1" id="generate-array-btn">Generate Random Array</button>
+      </div>
+
       <div class="col">
         <label class="col-form-label">Algorithm:</label>
 
@@ -31,15 +38,9 @@
           <option value="quick_sort_handler" selected>Quick Sort</option>
         </select>
 
-        <button type="button" class="btn btn-primary mt-2" id="sort-btn">Sort</button>
+        <button type="button" class="btn btn-success mt-2" id="sort-btn">Sort</button>
 
         <button type="button" class="btn btn-danger mt-2" id="stop-btn" disabled>Stop</button>
-      </div>
-
-      <div class="col-md-4">
-        <label for="array-size" class="col-form-label">Array size:</label>
-        <input class="form-control" type="number" name="array-size" id="array-size" value="50" min="10" max="500">
-        <button type="button" class="btn btn-primary mt-1" id="generate-array-btn">Generate Random Array</button>
       </div>
 
       <div class="col-md-4">

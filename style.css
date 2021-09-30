@@ -35,6 +35,14 @@ h1 {
   padding: 5px 10px;
 }
 
+#sort-btn {
+  width: 74%;
+}
+
+#stop-btn {
+  width: 25%;
+}
+
 /* .container {
   padding-top: 20px;
 } */
