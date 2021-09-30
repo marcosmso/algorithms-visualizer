@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css" />
-    <title>Sorting</title>
-
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css" />
+  <title>Sorting</title>
 </head>
 <body>
-    <h1>Sorting Visualizer</h1>
-    <div class="inputs-container">
-        <div class="inputs-row">
-            <label for="array-size">Array size:</label>
-            <input type="number" name="array-size" id="array-size" value="50" min="10" max="500">
-            <button id="generate-array-btn">Generate Random Array</button>
-        </div>
-        <div class="inputs-row">
-          <select id="algorithm-select">
-            <option value="bubble_sort">Bubble Sort</option>
-            <option value="selection_sort">Selection Sort</option>
-            <option value="insertion_sort">Insertion Sort</option>
-            <option value="merge_sort_handler">Merge Sort</option>
-            <option value="quick_sort_handler" selected>Quick Sort</option>
-          </select>
-          <button id="sort-btn">Sort</button>
-          <button id="stop-btn" disabled>Stop</button>
-          <h1 id="h1-test"></h1>
-        </div>
-        <div class="inputs-row">
-          <h2>Speed</h2>
-          <input type="range" min="1" max="699" value="400" class="slider" id="speed-selector">
-        </div>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">Sorting Visualizer</span>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="row mb-3 mt-3 align-items-center">
+      <div class="col">
+        <label class="col-form-label">Algorithm:</label>
+
+        <select class="form-select" id="algorithm-select">
+          <option value="bubble_sort">Bubble Sort</option>
+          <option value="selection_sort">Selection Sort</option>
+          <option value="insertion_sort">Insertion Sort</option>
+          <option value="merge_sort_handler">Merge Sort</option>
+          <option value="quick_sort_handler" selected>Quick Sort</option>
+        </select>
+
+        <button type="button" class="btn btn-primary mt-2" id="sort-btn">Sort</button>
+
+        <button type="button" class="btn btn-danger mt-2" id="stop-btn" disabled>Stop</button>
+      </div>
+
+      <div class="col-md-4">
+        <label for="array-size" class="col-form-label">Array size:</label>
+        <input class="form-control" type="number" name="array-size" id="array-size" value="50" min="10" max="500">
+        <button type="button" class="btn btn-primary mt-1" id="generate-array-btn">Generate Random Array</button>
+      </div>
+
+      <div class="col-md-4">
+        <label class="col-form-label">Speed:</label>
+        <input class="form-range" type="range" min="1" max="699" value="400" class="slider" id="speed-selector">
+      </div>
     </div>
 
-    <div class="array-container">
+  </div>
 
-    </div>
+  <div class="array-container">
 
-    <script src="app.js"></script>
-
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
 </body>
 </html>
